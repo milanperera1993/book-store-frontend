@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import BookCard from "../books/BookCard";
 
 // Import Swiper React components
@@ -10,6 +10,7 @@ import "swiper/css/navigation";
 
 // import required modules
 import { Navigation } from "swiper/modules";
+import { useFetchAllBooksQuery } from "../../redux/features/books/booksApi";
 
 const categories = [
   "Choose a genre",
@@ -20,14 +21,11 @@ const categories = [
 ];
 
 const TopSellers = () => {
-  const [books, setBooks] = useState([]);
   const [selectedCategory, setSelectedCategory] = useState("Choose a genre");
 
-  useEffect(() => {
-    fetch("book.json")
-      .then((res) => res.json())
-      .then((data) => setBooks(data));
-  }, []);
+  // you can define an error here
+  const { data: books = [] } = useFetchAllBooksQuery();
+  
   const filteredBooks =
     selectedCategory === "Choose a genre"
       ? books
