@@ -2,13 +2,16 @@ import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { useState } from "react";
+import { useAuth } from "../../context/util";
 
 function CheckoutPage() {
   const cartItems = useSelector((state) => state.cart.cartItems);
   const totalPrice = cartItems
     .reduce((acc, item) => acc + item.newPrice, 0)
     .toFixed(0);
-  const currentUser = true; //TODO
+
+  const { currentUser } = useAuth();
+  console.log(currentUser)
 
   const {
     register,
@@ -36,9 +39,10 @@ function CheckoutPage() {
 
     console.log(newOrder);
   };
+  console.log(currentUser.email)
 
   return (
-    <section>
+    currentUser && <section>
       <div className="min-h-screen p-6 bg-gray-100 flex items-center justify-center">
         <div className="container max-w-screen-lg mx-auto">
           <div>
@@ -76,13 +80,12 @@ function CheckoutPage() {
                     <div className="md:col-span-5">
                       <label htmlFor="email">Email Address</label>
                       <input
-                        {...register("email", { required: true })}
                         type="text"
                         name="email"
                         id="email"
                         className="h-10 border mt-1 rounded px-4 w-full bg-gray-50"
-                        // disabled
-                        // defaultValue={currentUser?.email}
+                        disabled
+                        defaultValue={currentUser?.email}
                         placeholder="email@domain.com"
                       />
                     </div>
