@@ -25,7 +25,7 @@ const booksApi = createApi({
       query: () => "/",
       providesTags: ["Books"],
     }),
-    fetchBooksById: builder.query({
+    fetchBookById: builder.query({
       query: (id) => `/${id}`,
       providesTags: (results, error, id) => [{ type: "Books", id }],
     }),
@@ -38,7 +38,7 @@ const booksApi = createApi({
       invalidatesTags: ["Books"],
     }),
     updateBook: builder.mutation({
-      query: (id, ...rest) => ({
+      query: ({id, ...rest}) => ({
         url: `/edit/${id}`,
         method: "PUT",
         body: rest,
@@ -60,7 +60,7 @@ const booksApi = createApi({
 
 export const {
   useFetchAllBooksQuery,
-  useFetchBooksByIdQuery,
+  useFetchBookByIdQuery,
   useAddBookMutation,
   useUpdateBookMutation,
   useDeleteBookMutation,
